@@ -1,0 +1,846 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Rubik', sans-serif;
+    font-size: 12px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;        /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, .25);
+}
+
+button{cursor: pointer;}
+button:focus {outline:0;}
+
+#app-container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #282C34;
+}
+
+.titlebar{
+    background-color: #21252B;
+    color: #9DA5B4;
+}
+
+.window-title{
+    color: #9DA5B4;
+    font-family: 'Rubik', sans-serif;
+}
+
+.menubar-menu-button{
+    color: #9DA5B4;
+    font-family: 'Rubik', sans-serif;
+}
+
+.action-item{
+    margin: 0;
+}
+
+.action-menu-item:not(.separator):hover{
+    cursor: pointer;
+}
+
+.action-menu-item{
+    color: #9DA5B4;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.7em;
+    height: 3.5em !important;
+}
+
+.action-label:not(.separator){
+    color: #9DA5B4;
+    font-family: 'Rubik', sans-serif;
+    padding-left: 0 !important;
+}
+
+.action-label:not(.separator):hover{
+    color: #9DA5B4 !important;
+    cursor: pointer;
+}
+
+.menubar-menu-container .keybinding{
+    color: rgba(255, 255, 255, .25);
+}
+
+.action-label.separator{
+    opacity: 0.05 !important;
+}
+
+#app-title{
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    color: #9DA5B4;
+    user-select: none;
+}
+
+
+#editmenu{
+    position: absolute;
+    height: 35px;
+    left: 0;
+    top: 0;
+    display: inline-block;
+}
+
+#editmenu > img{
+    display: inline-block;
+    float: left;
+}
+
+#body-container{
+    position: relative;
+    width: 100%;
+    height: calc(100% - 25px);
+    display: flex;
+    flex-direction: row;
+}
+
+#toolbar{
+    width: 50px;
+    height: 100%;
+    background-color: #292E36;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#toolbar button{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 0;
+    background: transparent;
+}
+
+#toolbar > .flexbottom{
+    margin-top: auto;
+}
+
+.sbicon-terminal{
+    mask: url(../svg/terminal.svg);
+    -webkit-mask: url(../svg/terminal.svg);
+}
+
+.sbicon-folder{
+    mask: url(../svg/folder.svg);
+    -webkit-mask: url(../svg/folder.svg);
+}
+
+.sbicon-settings{
+    mask: url(../svg/gear.svg);
+    -webkit-mask: url(../svg/gear.svg);
+}
+
+.sidebar-button{
+    mask-size: 24px 24px;
+    -webkit-mask-size: 24px 24px;
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    position: relative;
+    width: 12px;
+    height: 12px;
+}
+
+.sbicon-color{
+    background: #444D59;
+}
+
+.gradient{
+    background: linear-gradient(45deg, #FBAB7E, #F7CE68);
+}
+
+.sidebar-button > div {
+    position: relative;
+    width: 45px;
+    height: 45px;
+}
+
+#editor{
+    font-weight: 500;
+}
+
+#editorpanel{
+    position: relative;
+    width: calc( 100% - 50px );
+    height: 100%;
+    background-color: #282C34;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#settingspanel{
+    position: relative;
+    width: calc( 100% - 50px );
+    height: 100%;
+    background-color: #292E36 !important;
+    opacity: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.hiddenPanel{
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.filesbox{
+    position: relative;
+    min-width: 250px;
+    width: 250px;
+    height: 100%;
+    background-color: #21252B;
+    overflow: hidden;
+    resize: horizontal;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#editorcontainer{
+    position: relative;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#editorheader{
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 25px;
+    background-color: #282C34;
+    z-index: 1;
+}
+
+.scrolled{
+    -webkit-box-shadow: 0px 0px 28px 2px rgba(25,25,25,0.63); 
+    box-shadow: 0px 0px 5px 2px rgba(25,25,25,0.63);
+}
+
+.filesboxheader{
+    position: relative;
+    width: 100%;
+    height: 25px;
+    background-color: #333842;
+    line-height: 25px;
+    padding-left: 10px;
+    font-weight: 600;
+    color: #C2CCCC;
+    border: 0;
+    text-align: left;
+    font-family: 'Rubik', sans-serif;
+}
+
+.filesboxheader::before{
+    content: '\f303';
+    margin-right: 10px;
+    font-family: "Font Awesome 5 Free";
+}
+
+.filesboxfoldercontainer{
+    position: relative;
+    width: 100%;
+    min-height: 25px;
+    background-color: #E06C60;
+}
+
+.filesboxfolder{
+    position: relative;
+    width: 100%;
+    height: 25px;
+    background-color: transparent;
+    line-height: 25px;
+    padding-left: 20px;
+    color: #C2CCCC;
+    border: 0;
+    text-align: left;
+    font-family: 'Rubik', sans-serif;
+}
+
+.filesboxfolder::before{
+    content: "\f054";
+    margin-right: 10px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    font-size: 75%;
+    vertical-align: middle;
+}
+
+.fbfcontainer{
+    position: relative;
+    max-width: 100%;
+    height: 25px;
+}
+
+.filesboxfile{
+    position: relative;
+    width: calc(100% - 25px);
+    height: 25px;
+    background-color: transparent;
+    line-height: 25px;
+    padding: 0;
+    padding-left: 20px;
+    color: #C2CCCC;
+    border: 0;
+    text-align: left;
+    font-family: 'Rubik', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.fbfcontainer:hover{
+    background-color: rgba(255, 255, 255, .10);
+}
+
+.fbfcontainer:hover > .filesboxfileremove{
+    color: #98a0a0;
+}
+
+.filesboxfileremove{
+    width: 25px;
+    height: 25px;
+    color: transparent;
+    border: 0;
+    background-color: transparent;
+}
+
+.file{
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 75%;
+    vertical-align: middle;
+    min-width: 30px;
+    color: rgba(255, 255, 255, .25);
+}
+
+.unsavedfile > .filesboxfile{
+    color: #FBAB7E !important;
+}
+
+.unsavedfile > .filesboxfile::after{
+    content: '•';
+    float: right;
+    font-size: 2em;
+}
+
+.currentselectedfile{
+    background-color: rgba(255, 255, 255, .05);
+}
+
+.mlfile{
+    color: orange;
+}
+
+.txtfile{
+    color: #9DA5B4;
+}
+
+.pdffile{
+    color: #E06C60;
+}
+
+.editortabs{
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background-color: #21252B;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+}
+
+.editortabs > span, .editortabs > div {
+    position: relative;
+    height: 45px;
+    line-height: 45px;
+    display: inline-block;
+    color: rgba(255, 255, 255, .25);
+    flex: 1;
+    min-width: 0;
+    max-width: 50%;
+}
+
+.editortabs > div{
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.editortabs > span{
+    margin-left: 15px;
+}
+
+#filestop{
+    line-height: 45px;
+    color: #9DA5B4;
+    padding-left: 10px;
+    float: left;
+    display: inline-block;
+}
+
+#filestopicon{
+    float: right;
+    display: inline-block;
+    width: 50px;
+    height: 100%;
+    margin-right: 15px;
+    background-color: transparent;
+    color: #9DA5B4;
+    font-weight: 600;
+    border: 0;
+}
+
+#editorbox{
+    position: relative;
+    width: 100%;
+    flex: 1;
+    background-color: transparent;
+    z-index: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.maineditor{
+    position: relative;
+    height: 100%;
+    width: 50%;
+    background-color: transparent;
+    resize: horizontal;
+    overflow: auto;
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+.maineditor > #editortext{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    color: #C2CCCC;
+    overflow-wrap: normal;
+    
+}
+
+#linesholder{
+    position: relative;
+    width: 75px;
+}
+
+#terminaleditor{
+    position: relative;
+    height: 100%;
+    flex: 1;
+    background-color: rgba(10, 10, 10, .10);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.footerbar{
+    position: relative;
+    width: 100%;
+    height: 25px;
+    background-color: #21252B;
+}
+
+#camlEditor{
+    position: relative;
+    width: 100%;
+    height: calc( 100% - 25px );
+    z-index: 0;
+    background-color: #282C34;
+}
+
+#major-notif{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 55;
+    background-color: rgba(10, 10, 10, .50);
+    backdrop-filter: blur(5px);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+}
+
+#major-notif:hover{
+    cursor: pointer;
+}
+
+#major-notif > div:hover{
+    cursor: default;
+}
+
+#major-notif > div {
+    max-width: 25%;
+    max-height: 60%;
+    overflow-y: auto;
+    background-color: #21252B;
+    color: #9DA5B4;
+    -webkit-box-shadow: 0px 12px 22px 5px rgba(0,0,0,0.30); 
+    box-shadow: 0px 12px 22px 5px rgba(0,0,0,0.30);
+}
+
+#major-notif > div > div {
+    padding: 20px;
+    position: relative;
+}
+
+#major-notif > div > div > div {
+    position: relative;
+    min-width: 100%;
+    margin-top: 10px;
+    height: 35px
+}
+
+#major-notif > div > div > div > button {
+    float: right;
+    position: relative;
+    display: block;
+    height: 35px;
+    line-height: 35px;
+    border: 0;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    background-color: rgba(10, 10, 10, .25);
+    color: #9DA5B4;
+    transition: all .2s ease-in-out;
+    margin-left: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#major-notif > div > div > button:hover{
+    background-color: rgba(10, 10, 10, .05);
+    transition: all .2s ease-in-out;
+}
+
+
+#major-notif-title{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    position: relative;
+    width: 100%;
+    line-height: 1.2em;
+}
+
+.text-important{
+    color: #E06C60;
+}
+
+.text-title{
+    font-weight: 400 !important;
+    font-size: 1.5em;
+}
+
+li{
+    margin-bottom: 10px;
+}
+
+.text-inlinecode{
+    padding: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-family: 'Inconsolata', monospace;
+    color: #C2CCCC;
+    background-color: rgba(0,0,0,0.30);
+    border-radius: 5px;
+}
+
+.text-discrete{
+    color: rgba(255, 255, 255, .10);
+}
+
+#nofileopenedoverlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #282C34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+}
+
+#nofileopenedoverlay > i{
+    display: block;
+    color: rgba(255, 255, 255, .05);
+    font-size: 7em;
+    margin-bottom: 20px;
+}
+
+#nofileopenedoverlay > span{
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, .10);
+     text-align: center;
+}
+
+.term_ocaml{
+    position: absolute;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    font-family: 'Inconsolata', monospace;
+    color: rgba(255, 255, 255, .25);
+    font-size: 1.2em;
+    padding: 10px;
+}
+
+.term_ocaml_size{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+}
+
+.term_error{
+    color: #E06C60;
+    font-weight: 600;
+}
+
+.term_header{
+    text-align: center;
+    color: greenyellow;
+}
+
+.term_response{
+    color: cyan;
+}
+
+#codeeditorheadertext{
+    position: relative;
+    padding: 0;
+    margin-left: 15px;
+    max-width: calc(50% - 15px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+#codeeditorheaderpath{
+    position: relative;
+    max-width: calc(50% - 15px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    direction: rtl;
+    text-align: left;
+    margin-left: 15px;
+    padding-right: 15px;
+    color: rgba(255, 255, 255, .10);
+}
+
+input[type=text]{
+    background-color: #21252B;
+}
+
+#settings_container{
+    position: relative;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 50px;
+    color: #9DA5B4;
+    padding-bottom: 50px;
+}
+
+.md_huge{
+    position: relative;
+    display: block;
+    font-size: 3em;
+    font-weight: 300;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.md_separator{
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background-color: #9DA5B4;
+    opacity: .15;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.settings_control{
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.md_input_label{
+    position: relative;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: 400;
+}
+
+.md_input{
+    position: relative;
+    width: 100%;
+    border: 0;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    outline: 0;
+    font-family: 'Rubik', sans-serif;
+    padding: 5px;
+    color: #9DA5B4;
+}
+
+.md_input:focus{
+    outline: 0;
+}
+
+.md_input_desc{
+    position: relative;
+    width: 100%;
+    border: 0;
+    font-size: 1em;
+    margin-bottom: 5px;
+    opacity: 0.3;
+}
+
+#actionToolbar{
+    float: right;
+    position: relative;
+    height: 45px;
+    min-width: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#actionToolbar > .toolBarAction{
+    position: relative;
+    width: 45px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+}
+
+#actionToolbar > .toolBarAction:focus{
+    outline: 0;
+}
+
+#actionToolbar > .toolBarAction:hover{
+    cursor: pointer;
+}
+
+#actionToolbar > .toolBarAction > .tbicon{
+    width: 15px;
+    height: 15px;
+}
+
+.abtnc_green{
+    background: linear-gradient(45deg, #85FFBD, #FFFB7D);
+    width: 100%;
+    height: 100%;
+}
+
+.abtn_run{
+    mask: url(../svg/play.svg);
+    -webkit-mask: url(../svg/play.svg);
+}
+
+.save_settings_container{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.save_settings_block{
+    position: fixed;
+    display: block;
+    bottom: -550px;
+    padding: 25px;
+    width: 200px;
+    max-height: 500px;
+    right: 25px;
+    background: #21252B;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 5px 28px 2px rgba(25,25,25,0.25); 
+    box-shadow: 0px 5px 28px 2px rgba(25,25,25,0.25);
+    color: #9DA5B4;
+    font-family: 'Rubik', sans-serif;
+}
+
+.save_settings_block > span{
+    display: block;
+    margin-bottom: 15px;
+}
+
+.save_settings_block > button{
+    position: relative;
+    width: 100%;
+    background: transparent;
+    color: #27ae60;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 3px dashed #27ae60;
+    -webkit-box-shadow: 0px 5px 12px 2px rgba(25,25,25,0.05); 
+    box-shadow: 0px 5px 12px 2px rgba(25,25,25,0.05);
+    padding: 10px;
+    transition: all .3s;
+}
+
+.save_settings_block > button:hover{
+    border-style: solid;
+    color: #2ecc71;
+    border-color: #2ecc71;
+    transition: all .3s;
+}
+
+.save_settings_block > button:focus{
+    outline: 0;
+}

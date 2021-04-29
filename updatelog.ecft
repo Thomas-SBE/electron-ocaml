@@ -1,0 +1,37 @@
+*#dVersion 0.1a pre-alpha : build de démonstration.#d;*
+
+#\n
+
+#w 
+Ce logiciel est en cours de dévelopement, cette version est une version de démonstration. Certaines fonctionnalités sont suceptibles et vont surement
+changer au fil des mises a jours !
+#w;
+
+#\n
+
+Merci énormément de tester **ECaml** un éditeur lightweight OCaml en dévelopement. Cette application inclut les principaux outils qui permettent
+de coder en OCaml simplement. Une liste des fonctionnalitées peut être trouvé ci dessous :
+
+#\n
+
+## Fonctionnalitées : ##;
+#u
+
+#i Ouverture de fichiers OCaml et autres formats #i;
+#i Colorisation syntaxique de l'éditeur OCaml #i;
+#i Terminal intégré a l'éditeur pour éxécuter les scripts en .ml #i;
+
+#u;
+
+## Raccourcis clavier : ##;
+#u
+
+#i #icShift-Space#ic; : Ajoute une flèche #ic->#ic; a l'éditeur actuel. #i;
+#i #icControl-S#ic; : Sauvegarde le fichier actuellement ouvert dans l'éditeur. #i;
+#i #icControl-Alt-S#ic; : Sauvegarde tous les fichiers qui ont été édités. #i;
+
+#u;
+
+#\n
+
+<i class="fas fa-info"></i> : Cliquer en dehors de ce cadre permet de le fermer.

@@ -1,0 +1,11 @@
+{
+  "first_use": true,
+  "welcome": {
+    "title": "$#🐫 Bienvenue sur ECaml",
+    "content": "updatelog.ecft"
+  },
+  "settings.ocaml.location": "C:\\OCaml64\\home\\Thomas\\.opam\\4.11.1+mingw64c\\bin\\ocaml.exe",
+  "settings.ocamllib.location": "C:\\OCaml64\\home\\Thomas\\.opam\\4.11.1+mingw64c\\lib\\ocaml",
+  "settings.language": "fr_FR",
+  "settings.theme": "onedark_default"
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ECaml - an electron ocaml ide</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="res/css/style.css">
+    <script>window.$ = window.jQuery = require('jquery');</script>
+</head>
+<body>
+    <input type='file' id="openfiledialog" style="visibility: hidden; width: 0px; height: 0px; position: fixed;"/>
+    <div id="app-container">
+        <div id="body-container">
+            <div id="major-notif" style="display: none;">
+                <div>
+                    <div>
+                        <span id="major-notif-title">Fichiers non-sauvegardés</span>
+                        <span id="major-notif-content">Certains fichiers ne sont pas sauvegardés, voulez vous vraiment quitter l'éditeur ?</span>
+                        <div id="major-notif-buttons">
+                            <button id="backtoeditor">Quitter</button>
+                            <button id="quitbutton">Revenir à l'éditeur</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="toolbar">
+                <button id="filesbtn" class="sidebar-button sbicon-folder" onclick="setSelectedPanel(this.id)"><div class=""></div></button>
+                <button id="settingsbtn" class="sidebar-button sbicon-settings flexbottom" onclick="setSelectedPanel(this.id)"><div class=""></div></button>
+            </div>
+            <div id="editorpanel">
+                <div class="filesbox" id="filesbox">
+                    <div class="editortabs" id="filestop"><lang-o data-lang="sidebar.explorer"></lang-o><button id="filestopicon" title="📄 Add a new file to the editor."><i class="fas fa-plus"></i></button></div>
+                    <button class="filesboxheader" id="filesboxdir"><lang-o data-lang="sidebar.workspace.header"></lang-o></button>
+                    <!--
+                    <div class="filesboxfoldercontainer">
+                        <button class="filesboxfolder">resources</button>
+                    </div>
+                    <button class="filesboxfolder">node</button>
+                    <button class="filesboxfile"><span class="file mlfile">.ML</span>main.ml</button>
+                    <button class="filesboxfile"><span class="file txtfile">.TXT</span>coucou.txt</button>
+                    <button class="filesboxfile"><span class="file pdffile">.PDF</span>document.pdf</button>
+                    <div class="fbfcontainer" id="file_0"><button class="filesboxfile"><span class="file mlfile">.ML</span>main.ml</button><button class="filesboxfileremove" id="" onclick="removeFileFromEditor(this)"><i class="fas fa-times"></i></button></div>
+                    -->
+                    
+                </div>
+                <div class="editorcontainer" id="editorcontainer">
+                    <div class="editortabs" id="editortabs">
+                        <div><span id="codeeditorheadertext"><lang-o data-lang="editor.header.editor"></lang-o> - <span id="codeeditorfilename">TEST.ML</span></span><span id="codeeditorheaderpath">C://.../...</span></div>
+                        <div id="actionToolbar">
+                            <button class="toolBarAction" title="📜 Executes the current file" onclick="sendOcamlFile()">
+                                <div class="abtn_run tbicon"><div class="abtnc_green"></div></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="editorbox">
+                        <div class="maineditor">
+                            <div id="nofileopenedoverlay">
+                                <i class="fas fa-broadcast-tower"></i>
+                                <span style="max-width: 300px;"><lang-o data-lang="editor.nofileselected"></lang-o><br><br><lang-o data-lang="editor.nofileselected.desc"></lang-o> "<lang-o data-lang="sidebar.explorer"></lang-o>".</span>
+                            </div>
+                            <div class="editorheader" id="editorheader"></div>
+                            <div id="camlEditor"></div>
+                        </div>
+                        <div id="terminaleditor">
+                            <div class="term_ocaml" id="term_ocaml">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="settingspanel">
+                <div class="save_settings_container">
+                    <div class="save_settings_block">
+                        <span><lang-o data-lang="settings.apply.need"></lang-o><br><br><span class="text-important"><lang-o data-lang="settings.apply.warn"></lang-o></span></span>
+                        <button onclick="saveSettings(this)"><lang-o data-lang="settings.apply.button"></lang-o></button>
+                    </div>
+                </div>
+                <div id="settings_container">
+                    <span class="md_huge"><lang-o data-lang="settings.ocaml.header"></lang-o></span>
+                    <div class="settings_control">
+                        <span class="md_input_label"><lang-o data-lang="settings.ocaml.location"></lang-o> :</span>
+                        <br><span class="text-important">Ce champ ne doit pas être vide pour accèder aux fonctionnalités de l'interpreteur OCaml intégré.</span>
+                        <input class="md_input" type="text" id="stg_ocamlloc" name="settings.ocaml.location" oninput="makeChangesSettingsPopupAppear()"/>
+                        <span class="md_input_desc"><lang-o data-lang="settings.ocaml.location.desc"></lang-o></span>
+                    </div>
+                    <div class="settings_control">
+                        <span class="md_input_label"><lang-o data-lang="settings.ocamllib.location"></lang-o> :</span>
+                        <input class="md_input" type="text" id="stg_ocamlloc" name="settings.ocamllib.location" oninput="makeChangesSettingsPopupAppear()"/>
+                        <span class="md_input_desc"><lang-o data-lang="settings.ocamllib.location.desc"></lang-o></span>
+                    </div>
+                    <span class="md_huge"><lang-o data-lang="settings.language.header"></lang-o></span>
+                    <div class="settings_control">
+                        <span class="md_input_label"><lang-o data-lang="settings.language.lang"></lang-o> :</span>
+                        <br><span class=""><lang-o data-lang="settings.language.extensions"></lang-o> : <dynamic-element data-type="extensions.languages"></dynamic-element></span>
+                        <input class="md_input" type="text" id="stg_ocamlloc" name="settings.language" oninput="makeChangesSettingsPopupAppear()"/>
+                        <span class="md_input_desc"><lang-o data-lang="settings.language.lang.desc"></lang-o></span>
+                    </div>
+                    <span class="md_huge" style="display: none;"><lang-o data-lang="settings.theme.header"></lang-o></span>
+                    <div class="settings_control" style="display: none;">
+                        <span class="md_input_label"><lang-o data-lang="settings.theme.editor"></lang-o> :</span>
+                        <br><span class=""><lang-o data-lang="settings.theme.extensions"></lang-o> : <dynamic-element data-type="extensions.themes"></dynamic-element></span>
+                        <input class="md_input" type="text" id="stg_ocamlloc" name="settings.theme" oninput="makeChangesSettingsPopupAppear()"/>
+                        <span class="md_input_desc"><lang-o data-lang="settings.theme.editor.desc"></lang-o></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footerbar">
+            
+        </div>
+    </div>
+    <script src="lib/constants.js"></script>
+    <script src="lib/ace-editor/src-min/ace.js"></script>
+    <script src="lib/ace-editor/src-min/mode-ocaml.js"></script>
+    <link rel="stylesheet" href="node_modules/xterm/css/xterm.css">
+    <script src="lib/dyn_elem.js"></script>
+    <script src="lib/editor.js"></script>
+    <script src="script.js"></script>
+    <script src="lib/settings.js"></script>
+    <script src="lib/lang.js"></script>
+    
+</body>
+</html>
